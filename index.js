@@ -58,11 +58,15 @@ function request(method, path, checksum, opts, body, callback){
             }  
         });
         res.on('end', function() {
-            callback(null, resData);
+            callback(null, {
+                statusCode: res.statusCode,
+                headers: res.headers,
+                data: resData
+            });
         });
     });
     req.on('errer', function() {
-        console.log('error')
+        console.log('error');
     });
     req.end();
 }
@@ -82,7 +86,24 @@ UPYUN.prototype.getUsage = function() {
     }
 }
 
-
+UPYUN.prototype.getFileList = function(path) {
+    return function(fn) {
+        request('GET', path, null, null, null, function(err, res) {
+            if(err) return fn(err);
+            var items  = res.data.split('\n');
+            var filelist = items.reduce(function(prev, curr, idx, arr) {
+                var values = curr.split('\t');
+                return prev.concat({
+                    "name": values[0],
+                    "type": values[1],
+                    "size": values[2],
+                    "lastmod": values[3]
+                });
+            }, []); 
+            fn(null, filelist);
+        })
+    }
+}
 
 
 
