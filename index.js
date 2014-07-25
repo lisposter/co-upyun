@@ -101,11 +101,29 @@ UPYUN.prototype.getFileList = function(path) {
                 });
             }, []); 
             fn(null, filelist);
-        })
+        });
     }
 }
 
+UPYUN.prototype.createDir = function(path, mkdir) {
+    return function(fn) {
+        var opts = { "Folder": true };
+        if(mkdir) opts["Mkdir"] = true;
+        request('POST', path, null, opts, null, function(err, res) {
+            if(err) return fn(err);
+            fn(null, res);
+        });
+    }
+}
 
+UPYUN.prototype.removeDir = function(path) {
+    return function(fn) {
+        request('DELETE', path, null, null, null, function(err, res) {
+            if(err) return fn(err);
+            fn(null, res);
+        })
+    }
+}
 
 
 
