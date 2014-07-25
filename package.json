@@ -16,7 +16,7 @@
   ],
   "author": "Leigh Zhu",
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
     "co": "^3.0.6"
   }
 }

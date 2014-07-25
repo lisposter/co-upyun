@@ -42,3 +42,4 @@ sftp-config.json
 Session.vim
 .netrwhist
 *~
+dev-test/*
