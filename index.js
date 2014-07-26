@@ -125,6 +125,21 @@ UPYUN.prototype.removeDir = function(path) {
     }
 }
 
+UPYUN.prototype.getFileInfo = function(path) {
+    return function(fn) {
+        request('HEAD', path, null, null, null, function(err, res) {
+            if(err) return fn(err);
+            var info = Object.keys(res.headers).filter(function(itm) {
+                return itm.indexOf('x-upyun') >= 0;
+            }).reduce(function(prev, curr) {
+                prev[curr.split('-').pop()] = res.headers[curr];
+                // TODO: covert date value to millisecond.
+                return prev;
+            }, {});
+            fn(null, info);
+        })
+    }
+}
 
 
 module.exports = exports.UPYUN = UPYUN;
