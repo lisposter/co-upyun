@@ -33,42 +33,66 @@ function UPYUN(bucket, username, password, endpoint) {
 function request(method, path, checksum, opts, body, callback){
     var headers = opts || {};
     var uri = '/' + _CONF.bucket + path;
-    var contentLength = body ? (Buffer.isBuffer(body) ? body.length : Buffer.byteLength(body)) : 0;
+    var contentLength = 0;
     var date = (new Date()).toUTCString();
-    if(body && checksum === true) {
-        headers['Content-MD5'] = utils.md5sum(body);
-    }
-    headers['Content-Length'] = contentLength;
-    headers['Date'] = date;
-    headers['Authorization'] =  utils.makeSign(method, uri, date, contentLength, _CONF.password, _CONF.username);
-    headers['Host'] = _CONF.endpoint;
-    var options = {
-        hostname: _CONF.endpoint,
-        method: method,
-        path: uri,
-        headers: headers
-    };
+    
     var resData = '';
-    var req = http.request(options, function(res) {
+    function makeReq() {
+        if(body && checksum === true) {
+            headers['Content-MD5'] = utils.md5sum(body);
+        }
+        headers['Content-Length'] = contentLength;
+        headers['Date'] = date;
+        headers['Authorization'] =  utils.makeSign(method, uri, date, contentLength, _CONF.password, _CONF.username);
+        headers['Host'] = _CONF.endpoint;
+        var options = {
+            hostname: _CONF.endpoint,
+            method: method,
+            path: uri,
+            headers: headers
+        };
+        return http.request(options, function(res) {
         
-        res.setEncoding('utf8');
-        res.on('data', function (chunk) {
-            if(chunk) {
-                resData += chunk;
-            }  
-        });
-        res.on('end', function() {
-            callback(null, {
-                statusCode: res.statusCode,
-                headers: res.headers,
-                data: resData
+            res.setEncoding('utf8');
+            res.on('data', function (chunk) {
+                if(chunk) {
+                    resData += chunk;
+                }  
+            });
+            res.on('end', function() {
+                callback(null, {
+                    statusCode: res.statusCode,
+                    headers: res.headers,
+                    data: resData
+                });
             });
         });
-    });
-    req.on('errer', function() {
+    }
+    
+    if(body) {
+        if(fs.existsSync(body)) {
+            contentLength = fs.statSync(body).size;
+            var req = makeReq();
+            var rs = fs.createReadStream(body);
+            rs.pipe(req, {end: false});
+            rs.on('close', function() {
+                req.end();
+            })
+        } else {
+            contentLength = body.length;
+            var req = makeReq();
+            req.write(body);
+            req.end();
+        }
+    } else {
+        var req = makeReq();
+        req.end();
+    };
+
+    req.on('error', function() {
         console.log('error');
     });
-    req.end();
+    
 }
 
 UPYUN.prototype.getConf = function(key) {
@@ -137,6 +161,15 @@ UPYUN.prototype.getFileInfo = function(path) {
                 return prev;
             }, {});
             fn(null, info);
+        })
+    }
+}
+
+UPYUN.prototype.uploadFile = function(path, data, checksum, opts) {
+    return function(fn) {
+        request('PUT', path, checksum, opts, data, function(err, res) {
+            if(err) return fn(err);
+            fn(null, res);
         })
     }
 }

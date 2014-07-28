@@ -1,0 +1,26 @@
+{
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "."
+		}
+	],
+	"ternjs":
+	{
+		"libs":
+		[
+			"browser",
+			"jquery"
+		],
+		"plugins":
+		{
+			"angular":
+			{
+			},
+			"node":
+			{
+			}
+		}
+	}
+}
