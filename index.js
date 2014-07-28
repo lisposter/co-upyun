@@ -30,7 +30,11 @@ function UPYUN(bucket, username, password, endpoint) {
 }
 
 
-function request(method, path, checksum, opts, body, callback){
+function request(method, path, checksum, opts, body, localpath, cb){
+    if(typeof arguments[arguments.length - 1] !== 'function') {
+        return console.error('No callback function specified');
+    };
+    var callback = arguments[arguments.length - 1];
     var headers = opts || {};
     var uri = '/' + _CONF.bucket + path;
     var contentLength = 0;
@@ -54,20 +58,24 @@ function request(method, path, checksum, opts, body, callback){
             headers: headers
         };
         return http.request(options, function(res) {
-        
-            res.setEncoding('utf8');
-            res.on('data', function (chunk) {
-                if(chunk) {
-                    resData += chunk;
-                }  
-            });
-            res.on('end', function() {
-                callback(null, {
-                    statusCode: res.statusCode,
-                    headers: res.headers,
-                    data: resData
+            if(localpath) {
+                var ws = fs.createWriteStream(localpath);
+                res.pipe(ws);
+            } else {
+                res.setEncoding('utf8');
+                res.on('data', function (chunk) {
+                    if(chunk) {
+                        resData += chunk;
+                    }  
                 });
-            });
+                res.on('end', function() {
+                    callback(null, {
+                        statusCode: res.statusCode,
+                        headers: res.headers,
+                        data: resData
+                    });
+                });
+            }      
         });
     }
     
@@ -91,8 +99,8 @@ function request(method, path, checksum, opts, body, callback){
         req.end();
     };
 
-    req.on('error', function() {
-        console.log('error');
+    req.on('error', function(err) {
+        console.log(err);
     });
     
 }
@@ -105,7 +113,7 @@ UPYUN.prototype.getConf = function(key) {
 
 UPYUN.prototype.getUsage = function() {
     return function(fn) {
-        request('GET', '/?usage', null, null, null, function(err, res) {
+        request('GET', '/?usage', null, null, null, null, function(err, res) {
             if(err) return fn(err);
             fn(null, res);
         });
@@ -114,7 +122,7 @@ UPYUN.prototype.getUsage = function() {
 
 UPYUN.prototype.getFileList = function(path) {
     return function(fn) {
-        request('GET', path, null, null, null, function(err, res) {
+        request('GET', path, null, null, null, null, function(err, res) {
             if(err) return fn(err);
             var items  = res.data.split('\n');
             var filelist = items.reduce(function(prev, curr, idx, arr) {
@@ -135,7 +143,7 @@ UPYUN.prototype.createDir = function(path, mkdir) {
     return function(fn) {
         var opts = { "Folder": true };
         if(mkdir !== false) opts["Mkdir"] = true;
-        request('POST', path, null, opts, null, function(err, res) {
+        request('POST', path, null, opts, null, null, function(err, res) {
             if(err) return fn(err);
             fn(null, res);
         });
@@ -144,7 +152,7 @@ UPYUN.prototype.createDir = function(path, mkdir) {
 
 UPYUN.prototype.removeDir = function(path) {
     return function(fn) {
-        request('DELETE', path, null, null, null, function(err, res) {
+        request('DELETE', path, null, null, null, null, function(err, res) {
             if(err) return fn(err);
             fn(null, res);
         })
@@ -153,7 +161,7 @@ UPYUN.prototype.removeDir = function(path) {
 
 UPYUN.prototype.getFileInfo = function(path) {
     return function(fn) {
-        request('HEAD', path, null, null, null, function(err, res) {
+        request('HEAD', path, null, null, null, null, function(err, res) {
             if(err) return fn(err);
             var info = Object.keys(res.headers).filter(function(itm) {
                 return itm.indexOf('x-upyun') >= 0;
@@ -171,7 +179,16 @@ UPYUN.prototype.uploadFile = function(path, data, mkdir, checksum, opts) {
     return function(fn) {
         var opts = {};
         if(mkdir !== false) opts["Mkdir"] = true;
-        request('PUT', path, checksum, opts, data, function(err, res) {
+        request('PUT', path, checksum, opts, data, null, function(err, res) {
+            if(err) return fn(err);
+            fn(null, res);
+        })
+    }
+}
+
+UPYUN.prototype.downloadFile = function(path, localpath) {
+    return function(fn) {
+        request('GET', path, null, null, null, localpath, function(err, res) {
             if(err) return fn(err);
             fn(null, res);
         })
@@ -180,7 +197,7 @@ UPYUN.prototype.uploadFile = function(path, data, mkdir, checksum, opts) {
 
 UPYUN.prototype.removeFile = function(path) {
     return function(fn) {
-        request('DELETE', path, null, null, null, function(err, res) {
+        request('DELETE', path, null, null, null, null, function(err, res) {
             if(err) return fn(err);
             fn(null, res);
         })

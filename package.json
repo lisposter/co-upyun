@@ -1,7 +1,7 @@
 {
   "name": "co-upyun",
   "version": "0.0.2",
-  "description": "an upyun sdk which use ES6's generator && TJ's co",
+  "description": "A upyun sdk for node.js, which is for co-like interface. Can be used with koa or co. ",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
