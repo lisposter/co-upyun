@@ -178,5 +178,14 @@ UPYUN.prototype.uploadFile = function(path, data, mkdir, checksum, opts) {
     }
 }
 
+UPYUN.prototype.deleteFile = function(path) {
+    return function(fn) {
+        request('DELETE', path, null, null, null, function(err, res) {
+            if(err) return fn(err);
+            fn(null, res);
+        })
+    }
+}
+
 
 module.exports = exports.UPYUN = UPYUN;
