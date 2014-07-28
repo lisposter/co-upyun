@@ -61,6 +61,10 @@ function request(method, path, checksum, opts, body, localpath, cb){
             if(localpath) {
                 var ws = fs.createWriteStream(localpath);
                 res.pipe(ws);
+                callback(null, {
+                    statusCode: res.statusCode,
+                    headers: res.headers,
+                })
             } else {
                 res.setEncoding('utf8');
                 res.on('data', function (chunk) {
