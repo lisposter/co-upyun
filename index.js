@@ -40,6 +40,8 @@ function request(method, path, checksum, opts, body, callback){
     function makeReq() {
         if(body && checksum === true) {
             headers['Content-MD5'] = utils.md5sum(body);
+        } else if(typeof checksum === 'string') {
+            headers['Content-MD5'] = checksum;
         }
         headers['Content-Length'] = contentLength;
         headers['Date'] = date;
@@ -132,7 +134,7 @@ UPYUN.prototype.getFileList = function(path) {
 UPYUN.prototype.createDir = function(path, mkdir) {
     return function(fn) {
         var opts = { "Folder": true };
-        if(mkdir) opts["Mkdir"] = true;
+        if(mkdir !== false) opts["Mkdir"] = true;
         request('POST', path, null, opts, null, function(err, res) {
             if(err) return fn(err);
             fn(null, res);
@@ -165,8 +167,10 @@ UPYUN.prototype.getFileInfo = function(path) {
     }
 }
 
-UPYUN.prototype.uploadFile = function(path, data, checksum, opts) {
+UPYUN.prototype.uploadFile = function(path, data, mkdir, checksum, opts) {
     return function(fn) {
+        var opts = {};
+        if(mkdir !== false) opts["Mkdir"] = true;
         request('PUT', path, checksum, opts, data, function(err, res) {
             if(err) return fn(err);
             fn(null, res);
