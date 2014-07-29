@@ -28,7 +28,8 @@ var upyun = new UPYUN('bucket', 'username', 'password', 'endpoint');
 * `endpoint`: api address.(Default: `v0.api.upyun.com`)
 
 
-# API
+# Docs
+## API
 * [`getUsage`](#getUsage)
 * [`getFileList`](#getFileList)
 * [`createDir`](#createDir)
@@ -37,6 +38,12 @@ var upyun = new UPYUN('bucket', 'username', 'password', 'endpoint');
 * [`getFileInfo`](#getFileInfo)
 * [`downloadFile`](#downloadFile)
 * [`removeFile`](#removeFile)
+
+## Utils
+
+* [`setEndpoint`](#setEndpoint)
+
+# API
 
 <a name="getUsage" />
 ### getUsage()
@@ -107,6 +114,18 @@ Delete a file from UPYUN bucket.
 
 __Arguments__
 * `remote_path` The file's path in your UPYUN bucket.
+
+# Utils
+
+### setEndpoint(endpoint)
+Use this method to set api endpoint manually.
+
+__Arguments__
+* `endpoint` The value can be these:
+  * `ctcc` China Telecom
+  * `cucc` China Unicom
+  * `cmcc` China Mobile  
+
 
 # Response
 For easy to use, all of the apis will return a response in this format:

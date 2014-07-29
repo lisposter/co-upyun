@@ -11,21 +11,7 @@ function UPYUN(bucket, username, password, endpoint) {
     _CONF.username = username;
     _CONF.password = password;
     _CONF.version = pkg.version;
-    
-    switch((endpoint ? endpoint : '').toLowerCase()) {
-        case 'ctcc':
-            _CONF.endpoint = 'v1.api.upyun.com';
-            break;
-        case 'cucc':
-            _CONF.endpoint = 'v2.api.upyun.com';
-            break;
-        case 'cmcc':
-            _CONF.endpoint = 'v3.api.upyun.com';
-            break;
-        default:
-            _CONF.endpoint = 'v0.api.upyun.com';
-    }
-
+    _CONF.endpoint = utils.transEndpoint(endpoint);
 }
 
 
@@ -118,6 +104,10 @@ UPYUN.prototype.getConf = function(key) {
     if(_CONF[key]) {
         return _CONF[key];
     }
+}
+
+UPYUN.prototype.setEndpoint = function(ep) {
+    _CONF.endpoint = utils.transEndpoint(ep);
 }
 
 UPYUN.prototype.getUsage = function() {
