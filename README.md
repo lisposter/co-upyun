@@ -1,4 +1,9 @@
 # co-upyun
+[![NPM version](https://img.shields.io/npm/v/co-upyun.svg?style=flat)](https://www.npmjs.org/package/co-upyun)
+[![Build status](https://img.shields.io/travis/lisposter/co-upyun.svg?style=flat)](https://travis-ci.org/lisposter/co-upyun)
+[![Test coverage](https://img.shields.io/coveralls/lisposter/co-upyun.svg?style=flat)](https://coveralls.io/r/lisposter/co-upyun?branch=master)
+
+
 A upyun sdk for node.js, which is for co-like interface. Can be used with `koa` or `co`.
 
 # Install

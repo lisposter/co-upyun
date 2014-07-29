@@ -4,7 +4,7 @@
   "description": "A upyun sdk for node.js, which is for co-like interface. Can be used with koa or co. ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "make test"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   "devDependencies": {
     "co": "~3.0.2",
     "mocha": "~1.16.2",
-    "should": "~4.0.4"
+    "should": "~4.0.4",
+    "istanbul-harmony": "~0.2.9"
   }
 }
