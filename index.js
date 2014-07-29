@@ -12,7 +12,7 @@ function UPYUN(bucket, username, password, endpoint) {
     _CONF.password = password;
     _CONF.version = pkg.version;
     
-    switch(endpoint.toLowerCase()) {
+    switch((endpoint ? endpoint : '').toLowerCase()) {
         case 'ctcc':
             _CONF.endpoint = 'v1.api.upyun.com';
             break;
