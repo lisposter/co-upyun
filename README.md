@@ -117,6 +117,7 @@ __Arguments__
 
 # Utils
 
+<a name="setEndpoint" />
 ### setEndpoint(endpoint)
 Use this method to set api endpoint manually.
 
