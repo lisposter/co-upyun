@@ -52,7 +52,7 @@ To get how many quota has been used.(Unit:`Byte`)
 ---------------------------------------
 
 <a name="" />
-### getFileList('remote_dir_path')
+### getFileList(remote_dir_path)
 Get the file list of that dir. The response contains each item's type(file or dir), size(unit: `Byte`), last modify time.
 
 __Arguments__
@@ -61,7 +61,7 @@ __Arguments__
 ---------------------------------------
 
 <a name="createDir" />
-### createDir('remote_dir_path', 'make_dir')
+### createDir(remote_dir_path, make_dir)
 Create a new dir in UPYUN bucket.
 
 __Arguments__
@@ -71,7 +71,7 @@ __Arguments__
 ---------------------------------------
 
 <a name="removeDir" />
-### removeDir('remote_dir_path')
+### removeDir(remote_dir_path)
 Delete a dir
 
 * `remote_dir_path` The dir path which you want to remove.
@@ -79,7 +79,7 @@ Delete a dir
 ---------------------------------------
 
 <a name="uploadFile" />
-### uploadFile('remote_path', 'file', 'make_dir', 'opts')
+### uploadFile(remote_path, file, make_dir, opts)
 Upload a file into UPYUN bucket.
 
 __Arguments__
@@ -91,7 +91,7 @@ __Arguments__
 ---------------------------------------
 
 <a name="getFileInfo" />
-### getFileInfo('remote_path')
+### getFileInfo(remote_path)
 Get the file info. The response contains the file type(file or dir), size, create time.
 
 __Arguments__
@@ -100,7 +100,7 @@ __Arguments__
 ---------------------------------------
 
 <a name="downloadFile" />
-### downloadFile('remote_path')
+### downloadFile(remote_path)
 Download a file from UPYUN bucket.
 
 __Arguments__
@@ -109,7 +109,7 @@ __Arguments__
 ---------------------------------------
 
 <a name="removeFile" />
-### removeFile('remote_path')
+### removeFile(remote_path)
 Delete a file from UPYUN bucket.
 
 __Arguments__
