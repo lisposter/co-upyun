@@ -61,6 +61,9 @@ function request(method, path, checksum, opts, body, localpath, cb){
             if(localpath) {
                 var ws = fs.createWriteStream(localpath);
                 res.pipe(ws);
+                ws.on('error', function(err) {
+                    return callback(err);
+                })
                 callback(null, {
                     statusCode: res.statusCode,
                     headers: res.headers,
@@ -129,7 +132,7 @@ UPYUN.prototype.getFileList = function(path) {
         request('GET', path, null, null, null, null, function(err, res) {
             if(err) return fn(err);
             var items  = res.data.split('\n');
-            var filelist = items.reduce(function(prev, curr, idx, arr) {
+            res.data = items.reduce(function(prev, curr, idx, arr) {
                 var values = curr.split('\t');
                 return prev.concat({
                     "name": values[0],
@@ -138,7 +141,7 @@ UPYUN.prototype.getFileList = function(path) {
                     "lastmod": values[3]
                 });
             }, []); 
-            fn(null, filelist);
+            fn(null, res);
         });
     }
 }
@@ -167,14 +170,14 @@ UPYUN.prototype.getFileInfo = function(path) {
     return function(fn) {
         request('HEAD', path, null, null, null, null, function(err, res) {
             if(err) return fn(err);
-            var info = Object.keys(res.headers).filter(function(itm) {
+            res.data = Object.keys(res.headers).filter(function(itm) {
                 return itm.indexOf('x-upyun') >= 0;
             }).reduce(function(prev, curr) {
                 prev[curr.split('-').pop()] = res.headers[curr];
                 // TODO: covert date value to millisecond.
                 return prev;
             }, {});
-            fn(null, info);
+            fn(null, res);
         })
     }
 }
