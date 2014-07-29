@@ -20,42 +20,93 @@ You should always use these methods in your generator function. It works perfect
 
 ## init a UPYUN instance.
 ```js
-var upyun = new UPYUN('BUCKET', 'USERNAME', 'PASSWORD', 'ENDPOINT');
+var upyun = new UPYUN('bucket', 'username', 'password', 'endpoint');
 ```
-* `BUCKET`: Your upyun bucket name.
-* `USERNAME`: Your upyun operator name.
-* `PASSWORD`: Your upyun operator password.
-* `ENDPOINT`: api address.(Default: `v0.api.upyun.com`)
+* `bucket`: Your upyun bucket name.
+* `username`: Your upyun operator name.
+* `password`: Your upyun operator password.
+* `endpoint`: api address.(Default: `v0.api.upyun.com`)
 
 
 # API
+* [`getUsage`](#getUsage)
+* [`getFileList`](#getFileList)
+* [`createDir`](#createDir)
+* [`removeDir`](#removeDir)
+* [`uploadFile`](#uploadFile)
+* [`getFileInfo`](#getFileInfo)
+* [`downloadFile`](#downloadFile)
+* [`removeFile`](#removeFile)
 
-## `getUsage()`
+<a name="getUsage" />
+### getUsage()
+To get how many quota has been used.(Unit:`Byte`)
 
-## `getFileList('REMOTE_DIR_PATH')`
-* `REMOTE_DIR_PATH` The dir path which you want to traverse.
+---------------------------------------
 
-## `createDir('REMOTE_DIR_PATH', 'MAKE_DIR')`
-* `REMOTE_DIR_PATH` The dir path which you want to create.
-* `MAKE_DIR` Auto create parent dir if it isn't exists.(Default: `true`).
+<a name="" />
+### getFileList('remote_dir_path')
+Get the file list of that dir. The response contains each item's type(file or dir), size(unit: `Byte`), last modify time.
 
-## `removeDir('REMOTE_DIR_PATH')`
-* `REMOTE_DIR_PATH` The dir path which you want to remove.
+__Arguments__
+* `remote_dir_path` The dir path which you want to traverse.
 
-## `uploadFile('REMOTE_PATH', 'FILE', 'MAKE_DIR', 'OPTS')`
-* `REMOTE_PATH` Where the file will be stored in your UPYUN bucket.
-* `FILE` The file you want to upload. It can be a `path` string or the file's raw data.
-* `MAKE_DIR` Auto create parent dir if it isn't exists.(Default: `true`).
-* `OPTS` The additional http request headers. More detail in [Official Docs](http://docs.upyun.com/api/http_api/#上传文件)
+---------------------------------------
 
-## `getFileInfo('REMOTE_PATH')`
-* `REMOTE_PATH` The file's path in your UPYUN bucket.
+<a name="createDir" />
+### createDir('remote_dir_path', 'make_dir')
+Create a new dir in UPYUN bucket.
 
-## `downloadFile('REMOTE_PATH')`
-* `REMOTE_PATH` The file's path in your UPYUN bucket.
+__Arguments__
+* `remote_dir_path` The dir path which you want to create.
+* `make_dir` Auto create parent dir if it isn't exists.(Default: `true`).
 
-## `removeFile('REMOTE_PATH')`
-* `REMOTE_PATH` The file's path in your UPYUN bucket.
+---------------------------------------
+
+<a name="removeDir" />
+### removeDir('remote_dir_path')
+Delete a dir
+
+* `remote_dir_path` The dir path which you want to remove.
+
+---------------------------------------
+
+<a name="uploadFile" />
+### uploadFile('remote_path', 'file', 'make_dir', 'opts')
+Upload a file into UPYUN bucket.
+
+__Arguments__
+* `remote_path` Where the file will be stored in your UPYUN bucket.
+* `file` The file you want to upload. It can be a `path` string or the file's raw data.
+* `make_dir` Auto create parent dir if it isn't exists.(Default: `true`).
+* `opts` The additional http request headers. More detail in [Official Docs](http://docs.upyun.com/api/http_api/#上传文件)
+
+---------------------------------------
+
+<a name="getFileInfo" />
+### getFileInfo('remote_path')
+Get the file info. The response contains the file type(file or dir), size, create time.
+
+__Arguments__
+* `remote_path` The file's path in your UPYUN bucket.
+
+---------------------------------------
+
+<a name="downloadFile" />
+### downloadFile('remote_path')
+Download a file from UPYUN bucket.
+
+__Arguments__
+* `remote_path` The file's path in your UPYUN bucket.
+
+---------------------------------------
+
+<a name="removeFile" />
+### removeFile('remote_path')
+Delete a file from UPYUN bucket.
+
+__Arguments__
+* `remote_path` The file's path in your UPYUN bucket.
 
 # Response
 For easy to use, all of the apis will return a response in this format:
