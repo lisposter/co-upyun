@@ -18,6 +18,8 @@
   "author": "Leigh Zhu",
   "license": "MIT",
   "devDependencies": {
-    "co": "^3.0.6"
+    "co": "~3.0.2",
+    "mocha": "~1.16.2",
+    "should": "~4.0.4"
   }
 }
