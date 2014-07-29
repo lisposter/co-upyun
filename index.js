@@ -63,11 +63,14 @@ function request(method, path, checksum, opts, body, localpath, cb){
                 res.pipe(ws);
                 ws.on('error', function(err) {
                     return callback(err);
-                })
-                callback(null, {
-                    statusCode: res.statusCode,
-                    headers: res.headers,
-                })
+                });
+                ws.on('finish', function() {
+                    callback(null, {
+                        statusCode: res.statusCode,
+                        headers: res.headers,
+                    });
+                });
+                
             } else {
                 res.setEncoding('utf8');
                 res.on('data', function (chunk) {
@@ -107,7 +110,7 @@ function request(method, path, checksum, opts, body, localpath, cb){
     };
 
     req.on('error', function(err) {
-        console.log(err);
+        return callback(err);
     });
     
 }
