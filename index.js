@@ -17,7 +17,7 @@ function UPYUN(bucket, username, password, endpoint) {
 
 function request(method, path, checksum, opts, body, localpath, cb){
     if(typeof arguments[arguments.length - 1] !== 'function') {
-        return console.error('No callback function specified');
+        throw new Error('No callback specified.')
     };
     var callback = arguments[arguments.length - 1];
     var headers = opts || {};
@@ -59,9 +59,7 @@ function request(method, path, checksum, opts, body, localpath, cb){
             } else {
                 res.setEncoding('utf8');
                 res.on('data', function (chunk) {
-                    if(chunk) {
-                        resData += chunk;
-                    }  
+                    resData += chunk;  
                 });
                 res.on('end', function() {
                     callback(null, {
@@ -104,6 +102,10 @@ UPYUN.prototype.getConf = function(key) {
     if(_CONF[key]) {
         return _CONF[key];
     }
+}
+
+UPYUN.prototype.setConf = function(key, value) {
+    _CONF[key] = value;
 }
 
 UPYUN.prototype.setEndpoint = function(ep) {

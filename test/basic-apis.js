@@ -60,6 +60,13 @@ describe('API', function() {
             })(done)
         })
 
+        it('should return 200', function(done) {
+            co(function *() {
+                var res = yield upyun.uploadFile('/lorem/lorem.txt', './LICENSE', true, '69e97c8b91968c5878f331e53b8dcbf4', null);
+                res.should.have.property('statusCode').be.exactly(200);
+            })(done)
+        })
+
         it('should response 200', function(done) {
             co(function *() {
                 var res = yield upyun.uploadFile('/lorem/lorem.txt', 'TESTTEST', true, null, null);
@@ -98,6 +105,16 @@ describe('API', function() {
                 var a = read('./test/lorem.txt', 'utf8');
                 a.should.match(/MIT/);
                 fs.unlinkSync('./test/lorem.txt');
+            })(done)
+        })
+
+        it('should throw an error', function(done) {
+            co(function *() {
+                try {
+                    var g = yield upyun.downloadFile('/lorem/lorem.txt', './null/lorem.txt');
+                } catch(e) {
+                    e.toString().should.match(/Error/);
+                }
             })(done)
         })
     })
