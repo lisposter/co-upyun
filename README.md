@@ -30,7 +30,10 @@ var upyun = new UPYUN('bucket', 'username', 'password', 'endpoint');
 * `bucket`: Your upyun bucket name.
 * `username`: Your upyun operator name.
 * `password`: Your upyun operator password.
-* `endpoint`: api address.(Default: `v0.api.upyun.com`)
+* `endpoint`: api address. It can be `ctcc`, `cucc`, `cmcc`. If you don't specify a endpoint, SDK will choose a fastest api automatically.
+    * `ctcc` China Telecom
+    * `cucc` China Unicom
+    * `cmcc` China Mobile
 
 
 # Docs
@@ -130,7 +133,7 @@ __Arguments__
 * `endpoint` The value can be these:
   * `ctcc` China Telecom
   * `cucc` China Unicom
-  * `cmcc` China Mobile  
+  * `cmcc` China Mobile
 
 
 # Response
