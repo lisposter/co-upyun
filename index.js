@@ -101,6 +101,8 @@ function request(method, path, checksum, opts, body, localpath, cb){
 UPYUN.prototype.getConf = function(key) {
     if(_CONF[key]) {
         return _CONF[key];
+    } else {
+        return;
     }
 }
 
@@ -142,8 +144,11 @@ UPYUN.prototype.getFileList = function(path) {
 
 UPYUN.prototype.createDir = function(path, mkdir) {
     return function(fn) {
-        var opts = { "Folder": true };
-        if(mkdir !== false) opts["Mkdir"] = true;
+        var opts = { 
+            "Folder": true,
+            "Mkdir": true 
+        };
+        if(mkdir === false) opts["Mkdir"] = false;
         request('POST', path, null, opts, null, null, function(err, res) {
             if(err) return fn(err);
             fn(null, res);

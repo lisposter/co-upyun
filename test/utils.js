@@ -8,6 +8,10 @@ describe('utils', function() {
         it('should get bucket name', function() {
             upyun.getConf('bucket').should.be.exactly('travis');
         })
+
+        it('should return nothing', function() {
+            (upyun.getConf('null') === undefined).should.be.true;
+        })
     })
 
     describe('.setEndpoint(ep)', function() {

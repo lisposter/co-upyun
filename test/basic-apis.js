@@ -39,6 +39,16 @@ describe('API', function() {
             co(function *() {
                 var res = yield upyun.createDir('/createdirtest2/subdir/', true);
                 res.should.have.property('statusCode').be.exactly(200);
+                yield upyun.removeDir('/createdirtest2/subdir/');
+                yield upyun.removeDir('/createdirtest2/');
+            })(done)
+        })
+
+        it('should response 200', function(done) {
+            co(function *() {
+                var res = yield upyun.createDir('/createdirtest3/', false);
+                res.should.have.property('statusCode').be.exactly(200);
+                yield upyun.removeDir('/createdirtest3/');
             })(done)
         })
     })
