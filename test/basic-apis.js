@@ -34,6 +34,13 @@ describe('API', function() {
                 res.should.have.property('statusCode').be.exactly(200);
             })(done)
         })
+
+        it('should response 200', function(done) {
+            co(function *() {
+                var res = yield upyun.createDir('/createdirtest2/subdir/', true);
+                res.should.have.property('statusCode').be.exactly(200);
+            })(done)
+        })
     })
 
     describe('.removeDir(path)', function() {
@@ -45,11 +52,32 @@ describe('API', function() {
         })
     })
 
-    describe('.uploadFile(path, file, makedir, opts)', function() {
+    describe('.uploadFile(path, data, mkdir, checksum, opts)', function() {
         it('should response 200', function(done) {
             co(function *() {
                 var res = yield upyun.uploadFile('/lorem/lorem.txt', './LICENSE', true, null, null);
                 res.should.have.property('statusCode').be.exactly(200);
+            })(done)
+        })
+
+        it('should response 200', function(done) {
+            co(function *() {
+                var res = yield upyun.uploadFile('/lorem/lorem.txt', 'TESTTEST', true, null, null);
+                res.should.have.property('statusCode').be.exactly(200);
+            })(done)
+        })
+
+        it('should response 200', function(done) {
+            co(function *() {
+                var res = yield upyun.uploadFile('/lorem/lorem.txt', 'TESTTEST', true, true, null);
+                res.should.have.property('statusCode').be.exactly(200);
+            })(done)
+        })
+
+        it('should return not found', function(done) {
+            co(function *() {
+                var res = yield upyun.uploadFile('/lorem2/lorem.txt', './LICENSE', false, null, null);
+                res.should.have.property('statusCode').be.exactly(404);
             })(done)
         })
     })

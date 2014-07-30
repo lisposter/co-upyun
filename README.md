@@ -87,13 +87,14 @@ Delete a dir
 ---------------------------------------
 
 <a name="uploadFile" />
-### uploadFile(remote_path, file, make_dir, opts)
+### uploadFile(remote_path, file, make_dir, checksum, opts)
 Upload a file into UPYUN bucket.
 
 __Arguments__
 * `remote_path` Where the file will be stored in your UPYUN bucket.
 * `file` The file you want to upload. It can be a `path` string or the file's raw data.
 * `make_dir` Auto create parent dir if it isn't exists.(Default: `true`).
+* `checksum` Set `true` to force SDK send a md5 of local file to UPYUN. Or set a md5value string by yourself.
 * `opts` The additional http request headers. More detail in [Official Docs](http://docs.upyun.com/api/http_api/#上传文件)
 
 ---------------------------------------
