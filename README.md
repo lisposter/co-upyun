@@ -4,7 +4,7 @@
 [![Test coverage](https://img.shields.io/coveralls/lisposter/co-upyun.svg?style=flat)](https://coveralls.io/r/lisposter/co-upyun?branch=master)
 
 
-A upyun sdk for node.js, which is for co-like interface. Can be used with `koa` or `co`.
+An upyun sdk for node.js, which is for co-like interface. Can be used with `koa` or `co`.
 
 # Install
 ```sh
