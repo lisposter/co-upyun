@@ -1,5 +1,7 @@
 NODE ?=
 
+TEST = test/*
+
 test:
 	@$(NODE) ./node_modules/.bin/mocha \
 		--harmony-generators \
@@ -24,6 +26,7 @@ test-travis:
 		--report lcovonly \
 		-- -u exports \
 		--require should \
+		--slow 5s \
 		$(TESTS) \
 		--bail
 		

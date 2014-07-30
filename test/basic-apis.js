@@ -1,8 +1,10 @@
 var co = require('co');
 var should = require('should');
+var thunk = require('thunkify');
 var UPYUN = require('..');
 
 var fs = require('fs');
+var read = thunk(fs.readFile);
 
 var upyun = new UPYUN('travis', 'travisci', 'testtest', 'auto');
 
@@ -16,7 +18,7 @@ describe('API', function() {
         })
     })
 
-    describe('.getFileList(\'REMOTE_DIR_PATH\')', function() {
+    describe('.getFileList(path)', function() {
         it('should contain a file list', function(done) {
             co(function *() {
                 var res = yield upyun.getFileList('/');
@@ -24,5 +26,62 @@ describe('API', function() {
             })(done)
         })
     })
+
+    describe('.createDir(path)', function() {
+        it('should response 200', function(done) {
+            co(function *() {
+                var res = yield upyun.createDir('/createdirtest/');
+                res.should.have.property('statusCode').be.exactly(200);
+            })(done)
+        })
+    })
+
+    describe('.removeDir(path)', function() {
+        it('should response 200', function(done) {
+            co(function *() {
+                var res = yield upyun.removeDir('/createdirtest/');
+                res.should.have.property('statusCode').be.exactly(200);
+            })(done)
+        })
+    })
+
+    describe('.uploadFile(path, file, makedir, opts)', function() {
+        it('should response 200', function(done) {
+            co(function *() {
+                var res = yield upyun.uploadFile('/lorem/lorem.txt', './LICENSE', true, null, null);
+                res.should.have.property('statusCode').be.exactly(200);
+            })(done)
+        })
+    })
+
+    describe('.getFileInfo(path)', function() {
+        it('should response file info', function(done) {
+            co(function *() {
+                var res = yield upyun.getFileInfo('/lorem/lorem.txt');
+                res.should.have.property('data').not.be.empty;
+            })(done)
+        })
+    })
+
+    describe('.downloadFile(path)', function() {
+        it('should download a file to local', function(done) {
+            co(function *() {
+                var res = yield upyun.downloadFile('/lorem/lorem.txt', './test/lorem.txt');
+                var a = read('./test/lorem.txt', 'utf8');
+                a.should.match(/MIT/);
+                fs.unlinkSync('./test/lorem.txt');
+            })(done)
+        })
+    })
+
+    describe('.removeFile(path)', function() {
+        it('should response 200', function(done) {
+            co(function *() {
+                var res = yield upyun.removeFile('/lorem/lorem.txt');
+                res.should.have.property('statusCode').be.exactly(200);
+            })(done)
+        })
+    })
+
 })
 
