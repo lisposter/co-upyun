@@ -16,6 +16,7 @@ test-cov:
 		./node_modules/.bin/_mocha \
 		-- -u exports \
 		--require should \
+		--timeout 10000 \
 		$(TESTS) \
 		--bail
 
