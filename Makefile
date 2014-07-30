@@ -7,7 +7,7 @@ test:
 		--harmony-generators \
 		--require should \
 		--reporter spec \
-		--slow 5s \
+		--slow 2s \
 		--bail
 
 test-cov:
@@ -26,7 +26,8 @@ test-travis:
 		--report lcovonly \
 		-- -u exports \
 		--require should \
-		--slow 5s \
+		--slow 2s \
+		--timeout 10000 \
 		$(TESTS) \
 		--bail
 		

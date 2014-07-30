@@ -6,7 +6,7 @@ var UPYUN = require('..');
 var fs = require('fs');
 var read = thunk(fs.readFile);
 
-var upyun = new UPYUN('travis', 'travisci', 'testtest', 'auto');
+var upyun = new UPYUN('travis', 'travisci', 'testtest', 'ctcc');
 
 describe('API', function() {
     describe('.getUsage() ', function() {
