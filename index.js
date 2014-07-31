@@ -62,11 +62,23 @@ function request(method, path, checksum, opts, body, localpath, cb){
                     resData += chunk;  
                 });
                 res.on('end', function() {
-                    callback(null, {
-                        statusCode: res.statusCode,
-                        headers: res.headers,
-                        data: resData
-                    });
+                    if(res.statusCode > 200) {
+                        var result = {
+                            error: {
+                                code: res.statusCode,
+                                message: resData
+                            },
+                            headers: res.headers
+                        };
+                        callback(null, result);
+                    } else {
+                        callback(null, {
+                            statusCode: res.statusCode,
+                            headers: res.headers,
+                            data: resData
+                        });
+                    }
+                    
                 });
             }      
         });
@@ -183,10 +195,17 @@ UPYUN.prototype.getFileInfo = function(path) {
 
 UPYUN.prototype.uploadFile = function(path, data, mkdir, checksum, opts) {
     return function(fn) {
-        var opts = {};
+        opts = opts || {};
         if(mkdir !== false) opts["Mkdir"] = true;
         request('PUT', path, checksum, opts, data, null, function(err, res) {
             if(err) return fn(err);
+            res.data = Object.keys(res.headers).filter(function(itm) {
+                return itm.indexOf('x-upyun') >= 0;
+            }).reduce(function(prev, curr) {
+                prev[curr.split('-').pop()] = res.headers[curr];
+                // TODO: covert date value to millisecond.
+                return prev;
+            }, {});
             fn(null, res);
         })
     }

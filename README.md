@@ -95,7 +95,7 @@ __Arguments__
 * `file` The file you want to upload. It can be a `path` string or the file's raw data.
 * `make_dir` Auto create parent dir if it isn't exists.(Default: `true`).
 * `checksum` Set `true` to force SDK send a md5 of local file to UPYUN. Or set a md5value string by yourself.
-* `opts` The additional http request headers. More detail in [Official Docs](http://docs.upyun.com/api/http_api/#上传文件)
+* `opts` The additional http request headers(JavaScript Object). More detail in [Official Docs](http://docs.upyun.com/api/http_api/#上传文件)
 
 ---------------------------------------
 
@@ -131,7 +131,7 @@ __Arguments__
 Use this method to set api endpoint manually.
 
 __Arguments__
-* `endpoint` The value can be these:
+* `endpoint` The value can be these(leave blank to let sdk auto select the best one):
   * `ctcc` China Telecom
   * `cucc` China Unicom
   * `cmcc` China Mobile
@@ -145,9 +145,9 @@ For easy to use, all of the apis will return a response in this format:
     "data": {},
     "headers": {}
 }
-```  
+```
 
-__For Chinese Docs, please visit [wiki](https://github.com/lisposter/co-upyun/wiki).__
+__中文文档，请查看 [WIKI](https://github.com/lisposter/co-upyun/wiki).__
 
 # ATTENTION
 __ATTENTION:  This SDK is under develop now. lots of APIs are not implemented temporary.__

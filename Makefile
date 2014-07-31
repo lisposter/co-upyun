@@ -16,7 +16,7 @@ test-cov:
 		./node_modules/.bin/_mocha \
 		-- -u exports \
 		--require should \
-		--timeout 15000 \
+		--timeout 30000 \
 		$(TESTS) \
 		--bail
 
@@ -28,7 +28,7 @@ test-travis:
 		-- -u exports \
 		--require should \
 		--slow 2s \
-		--timeout 15000 \
+		--timeout 30000 \
 		$(TESTS) \
 		--bail
 		

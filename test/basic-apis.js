@@ -72,29 +72,29 @@ describe('API', function() {
 
         it('should return 200', function(done) {
             co(function *() {
-                var res = yield upyun.uploadFile('/lorem/lorem.txt', './LICENSE', true, '69e97c8b91968c5878f331e53b8dcbf4', null);
+                var res = yield upyun.uploadFile('/lorem/lorem_md5_custom.txt', './LICENSE', true, '69e97c8b91968c5878f331e53b8dcbf4', null);
                 res.should.have.property('statusCode').be.exactly(200);
             })(done)
         })
 
         it('should response 200', function(done) {
             co(function *() {
-                var res = yield upyun.uploadFile('/lorem/lorem.txt', 'TESTTEST', true, null, null);
+                var res = yield upyun.uploadFile('/lorem/lorem_raw.txt', 'TESTTEST', true, null, null);
                 res.should.have.property('statusCode').be.exactly(200);
             })(done)
         })
 
         it('should response 200', function(done) {
             co(function *() {
-                var res = yield upyun.uploadFile('/lorem/lorem.txt', 'TESTTEST', true, true, null);
+                var res = yield upyun.uploadFile('/lorem/lorem_md5.txt', 'TESTTEST', true, true, null);
                 res.should.have.property('statusCode').be.exactly(200);
             })(done)
         })
 
         it('should return not found', function(done) {
             co(function *() {
-                var res = yield upyun.uploadFile('/lorem2/lorem.txt', './LICENSE', false, null, null);
-                res.should.have.property('statusCode').be.exactly(404);
+                var res = yield upyun.uploadFile('/lorem_notfound/lorem.txt', './LICENSE', false, null, null);
+                res.error.code.should.be.exactly(404);
             })(done)
         })
     })
@@ -102,7 +102,8 @@ describe('API', function() {
     describe('.getFileInfo(path)', function() {
         it('should response file info', function(done) {
             co(function *() {
-                var res = yield upyun.getFileInfo('/lorem/lorem.txt');
+                yield upyun.uploadFile('/lorem/lorem_for_getinfo.txt', 'TESTTEST', true, null, null); 
+                var res = yield upyun.getFileInfo('/lorem/lorem_for_getinfo.txt');
                 res.should.have.property('data').not.be.empty;
             })(done)
         })
@@ -111,9 +112,11 @@ describe('API', function() {
     describe('.downloadFile(path)', function() {
         it('should download a file to local', function(done) {
             co(function *() {
-                var res = yield upyun.downloadFile('/lorem/lorem.txt', './test/lorem.txt');
+                yield upyun.uploadFile('/lorem/lorem_for_download.txt', './LICENSE', true, null, null); 
+                var res = yield upyun.downloadFile('/lorem/lorem_for_download.txt', './test/lorem.txt');
                 var a = read('./test/lorem.txt', 'utf8');
-                a.should.match(/MIT/);
+                var str = yield a;
+                str.should.match(/MIT/);
                 fs.unlinkSync('./test/lorem.txt');
             })(done)
         })
@@ -132,7 +135,8 @@ describe('API', function() {
     describe('.removeFile(path)', function() {
         it('should response 200', function(done) {
             co(function *() {
-                var res = yield upyun.removeFile('/lorem/lorem.txt');
+                yield upyun.uploadFile('/lorem/lorem_for_delete.txt', 'TESTTEST', true, null, null); 
+                var res = yield upyun.removeFile('/lorem/lorem_for_delete.txt');
                 res.should.have.property('statusCode').be.exactly(200);
             })(done)
         })
