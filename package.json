@@ -1,6 +1,6 @@
 {
   "name": "co-upyun",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "An upyun sdk for node.js, which is for co-like interface. Can be used with koa or co. ",
   "main": "index.js",
   "scripts": {

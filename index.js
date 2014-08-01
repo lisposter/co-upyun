@@ -64,6 +64,7 @@ function request(method, path, checksum, opts, body, localpath, cb){
                 res.on('end', function() {
                     if(res.statusCode > 200) {
                         var result = {
+                            statusCode: res.statusCode,
                             error: {
                                 code: res.statusCode,
                                 message: resData

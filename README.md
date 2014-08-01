@@ -139,11 +139,17 @@ __Arguments__
 
 # Response
 For easy to use, all of the apis will return a response in this format:
-```json
+eg.
+
+```js
 {
-    "statusCode": 200,
-    "data": {},
-    "headers": {}
+    statusCode: 200,
+    data: {},
+    headers: {},
+    error: {
+      code: 403,
+      message: 'Not a valid image file'
+    }
 }
 ```
 
