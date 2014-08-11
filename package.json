@@ -1,6 +1,6 @@
 {
   "name": "co-upyun",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "An upyun sdk for node.js, which is for co-like interface. Can be used with koa or co. ",
   "main": "index.js",
   "scripts": {
@@ -12,8 +12,10 @@
   },
   "keywords": [
     "upyun",
+    "sdk",
+    "cloud storage",
     "co",
-    "sdk"
+    "koa"
   ],
   "author": "Leigh Zhu",
   "license": "MIT",

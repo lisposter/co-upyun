@@ -8,7 +8,7 @@ co(function *() {
     var a = yield upyun.getUsage();
     console.log(a);
 
-    var b = yield upyun.getFileList('/');
+    var b = yield upyun.listDir('/');
     console.log(b);
 
     var c = yield upyun.createDir('/testdir/testsubdir', true);

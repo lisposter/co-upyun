@@ -136,7 +136,7 @@ UPYUN.prototype.getUsage = function() {
     }
 }
 
-UPYUN.prototype.getFileList = function(path) {
+UPYUN.prototype.listDir = function(path) {
     return function(fn) {
         request('GET', path, null, null, null, null, function(err, res) {
             if(err) return fn(err);
@@ -154,6 +154,9 @@ UPYUN.prototype.getFileList = function(path) {
         });
     }
 }
+
+// will be removed
+UPYUN.prototype.getFileList = UPYUN.prototype.listDir;
 
 UPYUN.prototype.createDir = function(path, mkdir) {
     return function(fn) {

@@ -39,7 +39,7 @@ var upyun = new UPYUN('bucket', 'username', 'password', 'endpoint');
 # Docs
 ## API
 * [`getUsage`](#getUsage)
-* [`getFileList`](#getFileList)
+* [`listDir`](#listDir)
 * [`createDir`](#createDir)
 * [`removeDir`](#removeDir)
 * [`uploadFile`](#uploadFile)
@@ -60,7 +60,7 @@ To get how many quota has been used.(Unit:`Byte`)
 ---------------------------------------
 
 <a name="" />
-### getFileList(remote_dir_path)
+### listDir(remote_dir_path)
 Get the file list of that dir. The response contains each item's type(file or dir), size(unit: `Byte`), last modify time.
 
 __Arguments__
@@ -155,7 +155,3 @@ eg.
 
 __中文文档，请查看 [WIKI](https://github.com/lisposter/co-upyun/wiki).__
 
-# ATTENTION
-__ATTENTION:  This SDK is under develop now. lots of APIs are not implemented temporary.__
-
-__Some APIs may changed until first stable version. （May be v0.1.0）__

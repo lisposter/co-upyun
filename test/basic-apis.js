@@ -18,10 +18,10 @@ describe('API', function() {
         })
     })
 
-    describe('.getFileList(path)', function() {
+    describe('.listDir(path)', function() {
         it('should contain a file list', function(done) {
             co(function *() {
-                var res = yield upyun.getFileList('/');
+                var res = yield upyun.listDir('/');
                 res.should.have.property('data').not.be.empty;
             })(done)
         })

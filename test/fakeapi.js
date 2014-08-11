@@ -27,7 +27,7 @@ describe('Error', function() {
             co(function *() {
                 upyun.setConf('endpoint', 'invalid');
                 try{
-                    var res = yield upyun.getFileList('/');
+                    var res = yield upyun.listDir('/');
                 } catch(e) {
                    e.toString().should.match(/Error/);
                 }
