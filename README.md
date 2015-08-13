@@ -3,6 +3,9 @@
 [![Build status](https://img.shields.io/travis/lisposter/co-upyun.svg?style=flat)](https://travis-ci.org/lisposter/co-upyun)
 [![Test coverage](https://img.shields.io/coveralls/lisposter/co-upyun.svg?style=flat)](https://coveralls.io/r/lisposter/co-upyun?branch=master)
 
+__DEPRECATED__, please use [this](https://github.com/lisposter/node-upyun-legacy) instead.
+__DEPRECATED__, please use [this](https://github.com/lisposter/node-upyun-legacy) instead.
+__DEPRECATED__, please use [this](https://github.com/lisposter/node-upyun-legacy) instead.
 
 An upyun sdk for node.js, which is for co-like interface. Can be used with `koa` or `co`.
 
